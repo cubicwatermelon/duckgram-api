@@ -20,7 +20,6 @@ class AuthorizeApiRequestService
 
   def decoded_auth_token
     @decoded_auth_token ||= JsonWebToken.decode(extract_authorization_token)
-  rescue
   end
 
   # extracts authorization header from the http request
