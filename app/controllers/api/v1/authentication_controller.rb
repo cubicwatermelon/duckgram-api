@@ -1,25 +1,12 @@
-class UsersController < ApplicationController
+class Api::V1::AuthenticationController < ApplicationController
     skip_before_action :authenticate_request, only: %i[login register]
-
-    # POST /create
-    def create
-        @user = User.create(user_params)
-        if @user.save
-            response = { message: 'User created successfully'}
-            render json: response, status: :created 
-        else
-            render json: @user.errors, status: :bad
-        end 
-    end
 
     def login
         authenticate params[:email], params[:password]
     end
 
     def test
-        render json: {
-            message: 'Authenticated'
-        }
+        render json: { message: 'Authenticated' }
     end
 
     private

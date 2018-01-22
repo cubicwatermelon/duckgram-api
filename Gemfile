@@ -25,6 +25,8 @@ gem 'simple_command'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem "active_model_serializers", '~> 0.10.4', require: true
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
