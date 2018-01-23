@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
-  skip_before_action :authenticate_request, only: %i[index]
   before_action :set_post, only: [:show, :update, :destroy]
+  before_action :check_ownership, only: [:update, :destroy]
 
   # GET /posts
   def index
@@ -24,7 +24,7 @@ class Api::V1::PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: @post, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class Api::V1::PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if current_user.posts.update(post_params)
+    if @post.update(post_params)
       render json: @post
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -41,17 +41,25 @@ class Api::V1::PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
-    @post.destroy
+    if @post.destroy
+      head :no_content
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
+    def check_ownership
+      if current_user != @post.user
+        head :forbidden
+      end
+    end
+
     def post_params
-      params.require(:post).permit(:picture, :description, :user_id)
+      params.require(:post).permit(:picture, :description)
     end
 end

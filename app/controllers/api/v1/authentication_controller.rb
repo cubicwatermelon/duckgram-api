@@ -2,7 +2,7 @@ class Api::V1::AuthenticationController < ApplicationController
   skip_before_action :authenticate_request, only: %i[login register]
 
   def login
-    authenticate params[:email], params[:password]
+    authenticate(params[:email], params[:password])
   end
 
   def test
