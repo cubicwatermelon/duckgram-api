@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: @users#, each_serializer: UserSerializer
+    render json: @users
   end
 
   # POST /users
@@ -40,6 +40,18 @@ class Api::V1::UsersController < ApplicationController
       render json: @user.errors, status: :unprocessable_entity
     end
   end  
+
+  def following
+    @user  = User.find(params[:id])
+    @users = @user.following
+    render json: @users
+  end
+
+  def followers
+    @user  = User.find(params[:id])
+    @users = @user.followers
+    render json: @users
+  end
 
   private
 
