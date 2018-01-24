@@ -1,13 +1,21 @@
 class Api::V1::RelationshipsController < ApplicationController
   def follow
     user = User.find(params[:id])
-    current_user.follow(user)
-    head :no_content
+    begin
+      current_user.follow(user)
+      head :no_content
+    rescue ActiveRecord::RecordNotUnique
+      head :conflict
+    end
   end
 
   def unfollow
-    user = Relationship.find_by(followed_id: params[:id]).followed
-    current_user.unfollow(user)
-    head :no_content
+    relationship = Relationship.find_by(followed_id: params[:id])
+    if relationship
+      current_user.unfollow(relationship.followed)
+      head :no_content
+    else
+      head :not_found
+    end
   end
 end
