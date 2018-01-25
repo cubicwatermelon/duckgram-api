@@ -1,11 +1,15 @@
 class Api::V1::RelationshipsController < ApplicationController
   def follow
     user = User.find(params[:id])
-    begin
-      current_user.follow(user)
-      render json: {status: 'Following'}, status: :no_content
-    rescue ActiveRecord::RecordNotUnique
-      render json: {status: 'Already following'}, status: :conflict
+    if current_user.id != user.id
+      begin
+        current_user.follow(user)
+        render json: {status: 'Following'}, status: :no_content
+      rescue ActiveRecord::RecordNotUnique
+        render json: {status: 'Already following'}, status: :conflict
+      end
+    else
+      render json: {status: 'An user cannot follow himself'}, status: :forbidden
     end
   end
 

@@ -2,9 +2,9 @@ class JsonWebToken
 # our secret key to encode our jwt
 
   class << self
-    def encode(payload, exp = 2.hours.from_now)
+    def encode(payload, exp = 7.days.from_now)
       # set token expiration time 
-      payload[:exp] = exp.to_i
+      # payload[:exp] = exp.to_i
       
        # this encodes the user data(payload) with our secret key
       JWT.encode(payload, Rails.application.secrets.secret_key_base)

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :api do
     namespace :v1 do
       resources :users do
@@ -11,7 +12,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :posts
+      resources :posts do
+        member do
+          post   '/like',   to: 'likes#like'
+          delete '/dislike', to: 'likes#dislike'
+        end
+      end
 
       post 'authenticate', to: 'authentication#login'
 

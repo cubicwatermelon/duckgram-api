@@ -15,6 +15,8 @@ class User < ApplicationRecord
                                    dependent:   :destroy
   has_many :following, through: :active_relationships,  source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :likes
+  has_many :liked_posts, through: :likes, source: :post
 
   def follow(other_user)
     following << other_user
@@ -33,5 +35,13 @@ class User < ApplicationRecord
                      WHERE  follower_id = :user_id"
     Post.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: id)
+  end
+
+  def like(post)
+    liked_posts << post
+  end
+
+  def dislike(post)
+    liked_posts.delete(post)
   end
 end
