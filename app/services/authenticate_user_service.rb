@@ -10,7 +10,7 @@ class AuthenticateUserService
   
   #this is where the result gets returned
   def call
-    JsonWebToken.encode(user_id: user.id) if user
+    {auth_token: JsonWebToken.encode(user_id: user.id), user_id: user.id} if user
   end
 
   private
