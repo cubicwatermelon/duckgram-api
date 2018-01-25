@@ -19,7 +19,6 @@ class Api::V1::AuthenticationController < ApplicationController
       command = AuthenticateUserService.call(email, password)
 
       if command.success?
-        debugger
         render json: {
           access_token: command.result[:auth_token],
           user_id: command.result[:user_id],

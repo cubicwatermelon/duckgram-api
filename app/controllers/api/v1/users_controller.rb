@@ -53,6 +53,10 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
+  def feed
+    render json: current_user.feed
+  end
+
   private
 
     def set_user

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :posts
 
       post 'authenticate', to: 'authentication#login'
+
+      get 'feed', to: 'users#feed'
     end
   end
 end
