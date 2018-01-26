@@ -53,8 +53,17 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
+  def is_following
+    @user = User.find(params[:id])
+    render json: { following: current_user.following.include?(@user) }
+  end
+
   def feed
     render json: current_user.feed
+  end
+
+  def recent_likes
+    render json: current_user.recent_likes
   end
 
   private

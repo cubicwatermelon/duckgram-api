@@ -3,7 +3,7 @@ class Api::V1::LikesController < ApplicationController
     post = Post.find(params[:id])
     if current_user.id != post.user.id
       begin
-        current_user.like(user)
+        current_user.like(post)
         render json: {status: 'Liked'}, status: :no_content
       rescue ActiveRecord::RecordNotUnique
         render json: {status: 'Already liked the post'}, status: :conflict

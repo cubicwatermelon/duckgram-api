@@ -10,4 +10,8 @@ class UserSerializer < ActiveModel::Serializer
   def following
     object.following.count
   end
+
+  def posts
+    object.posts.count
+  end
 end

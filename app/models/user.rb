@@ -35,6 +35,11 @@ class User < ApplicationRecord
                      WHERE  follower_id = :user_id"
     Post.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: id)
+        .order("created_at DESC")
+  end
+
+  def recent_likes
+    Like.where("post_id IN (:post_ids)", post_ids: posts.ids).last(12)
   end
 
   def like(post)
