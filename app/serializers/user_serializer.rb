@@ -2,6 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :avatar
   attribute :followers
   attribute :following
+  attribute :posts
 
   def followers
     object.followers.count
