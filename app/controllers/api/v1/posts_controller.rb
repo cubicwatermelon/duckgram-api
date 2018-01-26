@@ -8,7 +8,7 @@ class Api::V1::PostsController < ApplicationController
       @user = User.find(params[:user_id])
       @posts = @user.posts
     else
-      @posts = current_user.posts
+      @posts = Post.all
     end
 
     render json: @posts
@@ -16,7 +16,7 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    render json: @post
+    render json: @post, current_user: current_user
   end
 
   # POST /posts
@@ -24,7 +24,7 @@ class Api::V1::PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
 
     if @post.save
-      render json: @post, status: :created
+      render json: @post, status: :created, current_user: current_user
     else
       render json: @post.errors, status: :unprocessable_entity
     end

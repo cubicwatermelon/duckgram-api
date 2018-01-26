@@ -9,7 +9,6 @@ Rails.application.routes.draw do
           post '/follow',   to: 'relationships#follow'
           post '/unfollow', to: 'relationships#unfollow'
           get :following, :followers
-          get 'recent_likes', to: 'users#recent_likes'
           get 'is_following', to: 'users#is_following'
         end
       end
@@ -23,7 +22,8 @@ Rails.application.routes.draw do
 
       post 'authenticate', to: 'authentication#login'
 
-      get 'feed', to: 'users#feed'
+      get 'feed',         to: 'users#feed'
+      get 'recent_likes', to: 'users#recent_likes'
     end
   end
 end
