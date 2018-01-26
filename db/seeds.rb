@@ -1,15 +1,57 @@
-jesus = User.create(name: 'Jesus', email: 'jesus@holy.com', password: '123456', avatar: 'jesusphoto')
-judas = User.create(name: 'Judas', email: 'judas@holy.com', password: '123456', avatar: 'judasphoto')
-pedro = User.create(name: 'Pedro', email: 'pedro@holy.com', password: '123456', avatar: 'pedrophoto')
+felipe  = User.create(name: 'Felipe Mengatto', email: 'felipemengatto@gmail.com', password: '1234', avatar: Faker::Avatar.image)
+kaciano = User.create(name: 'Kaciano Ghelere', email: 'kacianoghelere@gmail.com', password: '1234', avatar: Faker::Avatar.image)
+pedro   = User.create(name: 'Pedro Rostirolla', email: 'pedrorostirolla@gmail.com', password: '1234', avatar: Faker::Avatar.image)
+douglas = User.create(name: 'Douglas Peretti', email: 'douglasperetti@gmail.com', password: '1234', avatar: Faker::Avatar.image)
+marlon  = User.create(name: 'Marlon Rettore', email: 'marlonrettore@gmail.com', password: '1234', avatar: Faker::Avatar.image)
+andrey  = User.create(name: 'Andrey Wilson Alberti', email: 'andreyalberti@gmail.com', password: '1234', avatar: Faker::Avatar.image)
 
-jesus.posts.create(picture: 'wine_from_water', description: 'My first miracle')
-jesus.posts.create(picture: 'shadow_fish_clone_technique', description: 'My second miracle')
-jesus.posts.create(picture: 'me_in_the_cross_chilling', description: 'My third miracle')
+felipe.follow(kaciano)
+felipe.follow(pedro)
+felipe.follow(douglas)
+felipe.follow(marlon)
+felipe.follow(andrey)
 
-judas.posts.create(picture: 'i_love_jesus', description: 'Our first')
-judas.posts.create(picture: 'i_love_money', description: 'Our last kiss')
+kaciano.follow(felipe)
+kaciano.follow(pedro)
+kaciano.follow(douglas)
+kaciano.follow(marlon)
+kaciano.follow(andrey)
 
-pedro.posts.create(picture: 'first_lie', description: 'I don\' know any Jesus guy')
-pedro.posts.create(picture: 'second_lie', description: 'I don\' know any Jesus guy')
-pedro.posts.create(picture: 'third_lie', description: 'I don\' know any Jesus guy')
-pedro.posts.create(picture: 'the_truth', description: 'Jesus? Yes yes, now i\'m remembering that guy')
+pedro.follow(kaciano)
+pedro.follow(douglas)
+pedro.follow(felipe)
+
+douglas.follow(kaciano)
+douglas.follow(pedro)
+
+marlon.follow(kaciano)
+marlon.follow(felipe)
+marlon.follow(andrey)
+
+andrey.follow(kaciano)
+andrey.follow(felipe)
+andrey.follow(marlon)
+andrey.follow(pedro)
+
+users = User.all
+users.each do |user|
+    post_amount = rand(3..10)
+    post_amount.times do |n|
+        Faker::Lorem.sentence(5)
+        user.posts.create({
+            picture: Faker::Avatar.image,
+            description: Faker::Lorem.sentence(5)
+        })
+    end
+end
+
+users.each do |user|
+    like_amount = rand(1..5)
+    like_amount.times do |n|
+        posts = Post.all
+        post = posts.take
+        if user.id != post.user.id
+            user.like(post)
+        end
+    end
+end
