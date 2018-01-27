@@ -1,5 +1,12 @@
 class Api::V1::LikesController < ApplicationController
-  def like
+  before_action :set_post, only: [ :index ]
+
+  def index
+    @likes = @post.likes.order("created_at DESC")
+    render json: @likes
+  end
+
+  def create
     post = Post.find(params[:id])
     if current_user.id != post.user.id
       begin
@@ -13,7 +20,7 @@ class Api::V1::LikesController < ApplicationController
     end
   end
 
-  def dislike
+  def destroy
     like = Like.find_by(post_id: params[:id])
     if like
       current_user.dislike(like.post)
@@ -22,4 +29,10 @@ class Api::V1::LikesController < ApplicationController
       render json: {status: 'Like does not exists'}, status: :not_found
     end
   end
+
+  private
+
+    def set_post
+      @post = Post.find(param[:post_id])
+    end
 end

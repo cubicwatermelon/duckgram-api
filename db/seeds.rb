@@ -45,13 +45,13 @@ users.each do |user|
     end
 end
 
-users.each do |user|
-    like_amount = rand(1..5)
-    like_amount.times do |n|
-        posts = Post.all
-        post = posts.take
-        if user.id != post.user.id
-            user.like(post)
-        end
-    end
-end
+# users.each do |user|
+#     like_amount = rand(1..5)
+#     like_amount.times do |n|
+#         posts = Post.all
+#         post = posts.take
+#         if user.id != post.user.id
+#             user.like(post)
+#         end
+#     end
+# end

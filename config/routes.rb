@@ -14,9 +14,11 @@ Rails.application.routes.draw do
       end
 
       resources :posts do
+        resource :likes, only: [:index]
+
         member do
-          post '/like',    to: 'likes#like'
-          post '/dislike', to: 'likes#dislike'
+          post '/like',    to: 'likes#create'
+          post '/dislike', to: 'likes#destroy'
         end
       end
 

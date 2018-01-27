@@ -6,9 +6,9 @@ class Api::V1::PostsController < ApplicationController
   def index
     if params[:user_id]
       @user = User.find(params[:user_id])
-      @posts = @user.posts
+      @posts = @user.posts.order("created_at DESC")
     else
-      @posts = Post.all
+      @posts = Post.all.order("created_at DESC")
     end
 
     render json: @posts
