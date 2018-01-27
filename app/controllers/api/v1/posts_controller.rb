@@ -6,12 +6,18 @@ class Api::V1::PostsController < ApplicationController
   def index
     if params[:user_id]
       @user = User.find_by(id: params[:user_id])
-      @posts = @user.posts.order("created_at DESC")
+      if @user
+        @posts = @user.posts.order("created_at DESC") unless !@user
+        render json: @posts
+      else
+        render json: {
+          message: "User #{params[:user_id]} not found"
+        }, status: :not_found
+      end
     else
       @posts = Post.all.order("created_at DESC")
+      render json: @posts
     end
-
-    render json: @posts
   end
 
   # GET /posts/1

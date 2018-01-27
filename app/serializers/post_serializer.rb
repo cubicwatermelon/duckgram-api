@@ -3,7 +3,7 @@ class PostSerializer < ActiveModel::Serializer
   attribute :likes
   attribute :liked
   attribute :likees
-  has_one :user
+  has_one :user, serializer: UserMinimalSerializer
 
   def likes
     object.likes.count
@@ -14,11 +14,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def likees
-    unless object.likes.empty?
-      map = object.likes.map { |like| like.user.name }
-      map.flatten.uniq
-    else 
-      []
-    end
+    map = object.likees.map { |user| user&.name }
+    map.flatten.uniq
   end
 end
