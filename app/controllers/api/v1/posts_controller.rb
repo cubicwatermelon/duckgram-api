@@ -5,7 +5,7 @@ class Api::V1::PostsController < ApplicationController
   # GET /posts
   def index
     if params[:user_id]
-      @user = User.find(params[:user_id])
+      @user = User.find_by(id: params[:user_id])
       @posts = @user.posts.order("created_at DESC")
     else
       @posts = Post.all.order("created_at DESC")
