@@ -14,7 +14,11 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def likees
-    map = object.likes.map { |like| like.user.name }
-    map.flatten.uniq
+    unless object.likes.empty?
+      map = object.likes.map { |like| like.user.name }
+      map.flatten.uniq
+    else 
+      []
+    end
   end
 end
